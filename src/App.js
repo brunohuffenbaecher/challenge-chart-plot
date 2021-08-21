@@ -1,7 +1,15 @@
+import Chart from './Components/Chart';
+import Footer from './Components/Footer';
+import Header from './Components/Header';
+import Input from './Components/Input';
+
 function App() {
   return (
     <div>
-      <p>Hello, Intelie!</p>
+      <Header />
+      <Input />
+      <Chart />
+      <Footer />
     </div>
   );
 }
