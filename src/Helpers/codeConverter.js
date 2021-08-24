@@ -17,10 +17,10 @@ export const codeParse = (textBlock) => {
   // convertedCode = JSON5.parse(convertedCode);
   try {
     convertedCode = JSON5.parse(convertedCode);
-    console.log(convertedCode);
+    // console.log(convertedCode);
     return convertedCode;
   } catch (error) {
     alert('Check your input code for errors!');
-    return;
+    return null;
   }
 };

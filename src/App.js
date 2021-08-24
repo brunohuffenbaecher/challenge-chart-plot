@@ -1,71 +1,119 @@
-import { useState } from 'react';
+import { loadFromBuffer } from 'bser';
+import { useEffect, useState } from 'react';
 import Chart from './Components/Chart';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 import Input from './Components/Input';
+import { initialCode, testData } from './Data/initialData';
 import { codeParse } from './Helpers/codeConverter';
-
-const testData = [
-  {
-    name: 'Series 1',
-    data: [
-      { timestamp: 0, value: Math.random() },
-      { timestamp: 1, value: Math.random() },
-      { timestamp: 2, value: Math.random() },
-    ],
-    color: '#115522',
-  },
-  {
-    name: 'Series 2',
-    data: [
-      { timestamp: 2, value: Math.random() },
-      { timestamp: 3, value: Math.random() },
-      { timestamp: 4, value: Math.random() },
-    ],
-    color: '#8884d8',
-  },
-  {
-    name: 'Series 3',
-    data: [
-      { timestamp: 5, value: Math.random() },
-      { timestamp: 6, value: Math.random() },
-      { timestamp: 9, value: Math.random() },
-    ],
-    color: '#EE3211',
-  },
-];
-
-const initialCode = `{type: 'start', timestamp: 1519862400000,select: ['min_response_time', 'max_response_time'],group: ['os', 'browser']}
-{type: 'span', timestamp: 1519862400000, begin: 1519862460000, end: 1519862460000}
-{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'stop', timestamp: 1519862460000}`;
+import {
+  capitalizeFirstLetter,
+  handleSelectString,
+} from './Helpers/strManipulation';
 
 function App() {
   const [data, setData] = useState(testData);
   const [inputData, setInputData] = useState(initialCode);
+  const [parsedInput, setParsedInput] = useState(null);
 
-  const [begin, setBegin] = useState(0);
-  const [end, setEnd] = useState(10);
+  // const [isStarted, setIsStarted] = useState(false);
+  const [beginInterval, setBeginInterval] = useState(0);
+  const [endInterval, setEndInterval] = useState(10);
 
-  const handleBtnClick = () => {
-    codeParse(inputData);
-  };
+  useEffect(() => {
+    if (parsedInput !== null) {
+      updateData();
+    }
+  }, [parsedInput]);
 
   const handleInputUpdate = (data) => {
     setInputData(data);
+  };
+  const handleBtnClick = () => {
+    setParsedInput(codeParse(inputData));
+  };
+
+  const updateData = () => {
+    let isStarted = false;
+    let startTime = 0;
+    let chartData = [];
+    let group = [];
+    let select = [];
+    let begin = 0;
+    let end = 0;
+    let groupName = [];
+
+    for (let i = 0; i < parsedInput.length; i++) {
+      if (parsedInput[i].type === 'start') {
+        isStarted = true;
+        chartData = [];
+        startTime = parsedInput[i].timestamp;
+        group = parsedInput[i].group;
+        select = parsedInput[i].select;
+      } else if (parsedInput[i].type === 'span') {
+        begin = parsedInput[i].begin;
+        end = parsedInput[i].end;
+      } else if (parsedInput[i].type === 'data' && isStarted === true) {
+        groupName = [];
+        for (let j = 0; j < group.length; j++) {
+          groupName.push(capitalizeFirstLetter(parsedInput[i][group[j]]));
+        }
+        groupName = groupName.join(' ');
+
+        for (let j = 0; j < select.length; j++) {
+          let serieName = groupName + ' ' + handleSelectString([select[j]]);
+
+          if (parsedInput[i][select[j]] !== undefined) {
+            let index = -1;
+            index = chartData.findIndex(
+              (element) => element.name === serieName
+            );
+            // console.log('index: ', index);
+
+            if (index !== -1) {
+              chartData[index].data.push({
+                timestamp: parsedInput[i].timestamp,
+                value: parsedInput[i][select[j]],
+              });
+            } else {
+              chartData.push({
+                name: serieName,
+                data: [
+                  {
+                    timestamp: parsedInput[i].timestamp,
+                    value: parsedInput[i][select[j]],
+                  },
+                ],
+                color: '#EE3211',
+              });
+            }
+
+            // console.log(chartData);
+            // console.log(serieName);
+            // console.log(parsedInput[i][select[j]]);
+          }
+        }
+      } else if (parsedInput[i].type === 'stop' && isStarted === true) {
+        isStarted = false;
+        // console.log(chartData);
+        // console.log("i'm stop!");
+      } else console.log('failed all');
+    }
+
+    updateChart(chartData, begin, end);
+  };
+
+  const updateChart = (chartData, begin, end) => {
+    setData(chartData);
+    setBeginInterval(begin);
+    setEndInterval(end);
   };
 
   return (
     <div>
       <Header />
       <Input onInput={handleInputUpdate} value={inputData} />
-      <Chart data={data} minLimit={begin} maxLimit={end} />
+      <Chart data={data} minLimit={beginInterval} maxLimit={endInterval} />
       <Footer generateChart={handleBtnClick} />
     </div>
   );

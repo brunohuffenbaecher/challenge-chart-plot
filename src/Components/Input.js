@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
-import codemirror from 'codemirror';
+
 import './input.module.css';
 
 import 'codemirror/mode/javascript/javascript';

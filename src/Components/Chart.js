@@ -55,36 +55,6 @@ import {
 //   },
 // ];
 
-// const series = [
-//   {
-//     name: 'Series 1',
-//     data: [
-//       { timestamp: 0, value: Math.random() },
-//       { timestamp: 1, value: Math.random() },
-//       { timestamp: 2, value: Math.random() },
-//     ],
-//     color: '#115522',
-//   },
-//   {
-//     name: 'Series 2',
-//     data: [
-//       { timestamp: 2, value: Math.random() },
-//       { timestamp: 3, value: Math.random() },
-//       { timestamp: 4, value: Math.random() },
-//     ],
-//     color: '#8884d8',
-//   },
-//   {
-//     name: 'Series 3',
-//     data: [
-//       { timestamp: 5, value: Math.random() },
-//       { timestamp: 9, value: Math.random() },
-//       { timestamp: 6, value: Math.random() },
-//     ],
-//     color: '#EE3211',
-//   },
-// ];
-
 const timestampFormmater = (item) => {
   return item;
 };
