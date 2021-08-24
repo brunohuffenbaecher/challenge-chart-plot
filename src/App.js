@@ -36,15 +36,20 @@ const testData = [
 
 function App() {
   const [data, setData] = useState(testData);
+
   const [begin, setBegin] = useState(0);
   const [end, setEnd] = useState(10);
+
+  const handleBtnClick = () => {
+    console.log("I'm a click");
+  };
 
   return (
     <div>
       <Header />
       <Input />
       <Chart data={data} minLimit={begin} maxLimit={end} />
-      <Footer />
+      <Footer generateChart={handleBtnClick} />
     </div>
   );
 }

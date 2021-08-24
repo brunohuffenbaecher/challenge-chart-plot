@@ -1,5 +1,17 @@
 import React from 'react';
 
-export default function Footer() {
-  return <div>I'm the Footer component</div>;
+import css from './footer.module.css';
+
+export default function Footer({ generateChart }) {
+  const handleClick = () => {
+    generateChart();
+  };
+
+  return (
+    <div className={css.footerDiv}>
+      <button className={css.btn} onClick={handleClick}>
+        GENERATE CHART
+      </button>
+    </div>
+  );
 }

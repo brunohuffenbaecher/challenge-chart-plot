@@ -1,3 +1,5 @@
 :global .CodeMirror {
   height: 350px !important;
+  font-family: 'Source Code Pro', monospace !important;
+  font-size: small;
 }
