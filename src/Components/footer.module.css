@@ -19,4 +19,9 @@
   color: white;
   font-family: 'Source Sans Pro', sans-serif;
   font-size: small;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0b61a7;
 }

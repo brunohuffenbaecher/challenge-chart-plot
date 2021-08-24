@@ -3,6 +3,7 @@ import Chart from './Components/Chart';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 import Input from './Components/Input';
+import { codeParse } from './Helpers/codeConverter';
 
 const testData = [
   {
@@ -34,20 +35,36 @@ const testData = [
   },
 ];
 
+const initialCode = `{type: 'start', timestamp: 1519862400000,select: ['min_response_time', 'max_response_time'],group: ['os', 'browser']}
+{type: 'span', timestamp: 1519862400000, begin: 1519862460000, end: 1519862460000}
+{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+{type: 'stop', timestamp: 1519862460000}`;
+
 function App() {
   const [data, setData] = useState(testData);
+  const [inputData, setInputData] = useState(initialCode);
 
   const [begin, setBegin] = useState(0);
   const [end, setEnd] = useState(10);
 
   const handleBtnClick = () => {
-    console.log("I'm a click");
+    codeParse(inputData);
+  };
+
+  const handleInputUpdate = (data) => {
+    setInputData(data);
   };
 
   return (
     <div>
       <Header />
-      <Input />
+      <Input onInput={handleInputUpdate} value={inputData} />
       <Chart data={data} minLimit={begin} maxLimit={end} />
       <Footer generateChart={handleBtnClick} />
     </div>

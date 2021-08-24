@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
-import { codeParse } from '../Helpers/codeConverter';
-
+import codemirror from 'codemirror';
 import './input.module.css';
 
-require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/css/css');
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/dracula.css');
-require('codemirror/theme/panda-syntax.css');
-require('codemirror/theme/material.css');
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/css/css';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/dracula.css';
+import 'codemirror/theme/panda-syntax.css';
+import 'codemirror/theme/material.css';
 
 //lines of code for input testing
-const initialCode = `{type: 'start', timestamp: 1519862400000,select: ['min_response_time', 'max_response_time'],group: ['os', 'browser']}
-{type: 'span', timestamp: 1519862400000, begin: 1519862460000, end: 1519862460000}
-{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
-{type: 'stop', timestamp: 1519862460000}`;
+// const initialCode = `{type: 'start', timestamp: 1519862400000,select: ['min_response_time', 'max_response_time'],group: ['os', 'browser']}
+// {type: 'span', timestamp: 1519862400000, begin: 1519862460000, end: 1519862460000}
+// {type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+// {type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+// {type: 'data', timestamp: 1519862400000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+// {type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+// {type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+// {type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+// {type: 'data', timestamp: 1519862460000, os: 'linux', browser: 'chrome', min_response_time: 0.1, max_response_time: 1.3}
+// {type: 'stop', timestamp: 1519862460000}`;
 
 // const initialCode = `{"type": 'start', "timestamp": 1519862400000,"select": ['min_response_time', 'max_response_time'],"group": ['os', 'browser']}
 // {"type": 'span', "timestamp": 1519862400000, "begin": 1519862460000, "end": 1519862460000}
@@ -70,25 +68,21 @@ const initialCode = `{type: 'start', timestamp: 1519862400000,select: ['min_resp
 // strToJSON(initialCode);
 // console.log(jsonTest);
 
-export default function Input() {
-  const [code, setCode] = useState(initialCode);
+export default function Input({onInput, value}) {
   
-
+  /** Send the input data back to App component */
   const handleChange = (editor, data, value) => {
     // console.log('Editor: ', editor);
     // console.log('Data: ', data);
     // console.log('Value: ', value);
-    setCode(value);
-
-    codeParse(value); // function to convert the input code
-    // console.log(value);
+    onInput(value)
+   
   };
 
   return (
     <div>
       <CodeMirror
-        
-        value={code}
+        value={value}
         options={{
           lineNumbers: true,
           foldGutter: false,
@@ -96,8 +90,7 @@ export default function Input() {
           autofocus: true,
           theme: 'dracula',
           mode: 'application/json',
-        }}
-        
+          }}
         onBeforeChange={handleChange}
       />
     </div>
