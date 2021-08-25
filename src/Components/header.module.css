@@ -1,0 +1,11 @@
+.headerDiv {
+  background-color: rgba(221, 220, 220, 0.911);
+  padding-left: 15px;
+  height: 50px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: larger;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+}
