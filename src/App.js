@@ -1,10 +1,10 @@
-import { loadFromBuffer } from 'bser';
 import { useEffect, useState } from 'react';
 import Chart from './Components/Chart';
 import Footer from './Components/Footer';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { initialCode, testData } from './Data/initialData';
+import { insertAndSort } from './Helpers/arrayManipulation';
 import { codeParse } from './Helpers/codeConverter';
 import { addColor } from './Helpers/colorHandler';
 import {
@@ -17,7 +17,6 @@ function App() {
   const [inputData, setInputData] = useState(initialCode);
   const [parsedInput, setParsedInput] = useState(null);
 
-  // const [isStarted, setIsStarted] = useState(false);
   const [beginInterval, setBeginInterval] = useState(0);
   const [endInterval, setEndInterval] = useState(0);
 
@@ -73,7 +72,8 @@ function App() {
 
             if (index !== -1) {
               //if positive, pushes the new data for the serie
-              chartData[index].data.push({
+
+              chartData[index].data = insertAndSort(chartData[index].data, {
                 timestamp: parsedInput[i].timestamp,
                 value: parsedInput[i][select[j]],
               });
