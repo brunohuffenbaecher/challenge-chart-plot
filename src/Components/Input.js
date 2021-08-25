@@ -80,7 +80,7 @@ export default function Input({onInput, value}) {
   };
 
   return (
-    <div>
+    <div >
       <CodeMirror
         value={value}
         options={{

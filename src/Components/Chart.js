@@ -17,7 +17,6 @@ const formatter2 = (value, name, props) => {
 export default function Chart({ data, minLimit, maxLimit }) {
   const timestampFormmater = (item) => {
     const diff = item - minLimit;
-    console.log(item, minLimit, diff);
     const hours = parseInt(diff / (60 * 60 * 1000));
     const minutes = parseInt((diff % (60 * 60 * 1000)) / 60000);
     return (

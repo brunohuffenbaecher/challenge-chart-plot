@@ -6,6 +6,7 @@ import Header from './Components/Header';
 import Input from './Components/Input';
 import { initialCode, testData } from './Data/initialData';
 import { codeParse } from './Helpers/codeConverter';
+import { addColor } from './Helpers/colorHandler';
 import {
   capitalizeFirstLetter,
   handleSelectString,
@@ -64,18 +65,20 @@ function App() {
           let serieName = groupName + ' ' + handleSelectString([select[j]]);
 
           if (parsedInput[i][select[j]] !== undefined) {
-            let index = -1;
-            index = chartData.findIndex(
+            //Checks if a given property based on the select array exists
+            let index = chartData.findIndex(
+              //Checks if there's already an object data for the serieName
               (element) => element.name === serieName
             );
-            // console.log('index: ', index);
 
             if (index !== -1) {
+              //if positive, pushes the new data for the serie
               chartData[index].data.push({
                 timestamp: parsedInput[i].timestamp,
                 value: parsedInput[i][select[j]],
               });
             } else {
+              //if not, pushes a new obj data to the chart data array
               chartData.push({
                 name: serieName,
                 data: [
@@ -84,13 +87,8 @@ function App() {
                     value: parsedInput[i][select[j]],
                   },
                 ],
-                color: '#EE3211',
               });
             }
-
-            // console.log(chartData);
-            // console.log(serieName);
-            // console.log(parsedInput[i][select[j]]);
           }
         }
       } else if (parsedInput[i].type === 'stop' && isStarted === true) {
@@ -104,7 +102,7 @@ function App() {
   };
 
   const updateChart = (chartData, begin, end) => {
-    setData(chartData);
+    setData(addColor(chartData));
     setBeginInterval(begin);
     setEndInterval(end);
   };
