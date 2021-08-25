@@ -44,12 +44,12 @@ function App() {
   };
 
   return (
-    <div>
+    <>
       <Header />
       <Input onInput={handleInputUpdate} value={inputData} />
       <Chart data={data} minLimit={beginInterval} maxLimit={endInterval} />
       <Footer generateChart={handleBtnClick} />
-    </div>
+    </>
   );
 }
 
