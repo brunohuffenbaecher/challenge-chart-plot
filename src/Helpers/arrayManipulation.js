@@ -1,4 +1,4 @@
-/**Insert data obj using in the array an ascending order algorithm */
+/**Insert data obj in the array using an ascending order algorithm */
 export const insertAndSort = (array, obj) => {
   let arr = [...array];
   let insertIndex = 0;
@@ -15,6 +15,6 @@ export const insertAndSort = (array, obj) => {
   // console.log(insertIndex);
   // console.log(insertIndex);
   arr.splice(insertIndex, 0, obj);
-  console.log(arr);
+  // console.log(arr);
   return arr;
 };
