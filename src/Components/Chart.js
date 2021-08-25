@@ -10,104 +10,50 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-// const data = [
-//   {
-//     name: 2,
-//     uv: 4000,
-//     pv: 2400,
-//     amt: 2400,
-//   },
-//   {
-//     name: 3,
-//     uv: 3000,
-//     pv: 1398,
-//     amt: 2210,
-//   },
-//   {
-//     name: 4,
-//     uv: 2000,
-//     pv: 9800,
-//     amt: 2290,
-//   },
-//   {
-//     name: 5,
-//     uv: 2780,
-//     pv: 3908,
-//     amt: 2000,
-//   },
-//   {
-//     name: 6,
-//     uv: 1890,
-//     // pv: 4800,
-//     amt: 2181,
-//   },
-//   {
-//     name: 7,
-//     uv: 2390,
-//     pv: 3800,
-//     amt: 2500,
-//   },
-//   {
-//     name: 11,
-//     uv: 3490,
-//     pv: 4300,
-//     amt: 2100,
-//   },
-// ];
-
-const timestampFormmater = (item) => {
-  return item;
-};
-
 const formatter2 = (value, name, props) => {
   // return ['formatted value', 'formatted name'];
   return [value, name];
 };
 export default function Chart({ data, minLimit, maxLimit }) {
+  const timestampFormmater = (item) => {
+    const diff = item - minLimit;
+    console.log(item, minLimit, diff);
+    const hours = parseInt(diff / (60 * 60 * 1000));
+    const minutes = parseInt((diff % (60 * 60 * 1000)) / 60000);
+    return (
+      (hours < 10 ? '0' : '') +
+      hours.toString() +
+      ':' +
+      (minutes < 10 ? '0' : '') +
+      minutes.toString()
+    );
+  };
+
   // const [maxLimit, setMaxLimit] = useState(10);
 
   return (
-    <div style={{ width: '100%' }}>
-      {/* <LineChart
-        width={1000}
-        height={250}
-        data={data}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis
-          dataKey="name"
-          domain={[0, maxLimit]}
-          interval={0}
-          type="number"
-          allowDataOverflow="false"
-          tickFormatter={formatterTest}
-        />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="linear" dataKey="pv" stroke="#8884d8" />
-        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-      </LineChart> */}
-
+    <div style={{ width: '100%', marginTop: '10px' }}>
       <ResponsiveContainer width="90%" minHeight={300}>
         {/* <ResponsiveContainer> */}
         <LineChart
           width={900}
           height={300}
-          margin={{ top: 5, right: 50, left: 20, bottom: 5 }}
+          margin={{ top: 15, right: 50, left: 20, bottom: 5 }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="timestamp"
             type="number"
-            allowDuplicatedCategory={false}
+            // allowDuplicatedCategory={false}
             interval={0}
             domain={[minLimit, maxLimit]}
             tickFormatter={timestampFormmater}
+            allowDataOverflow={true}
+            padding={{ left: 30, right: 30 }}
+            tickCount={0}
           />
-          <YAxis dataKey="value" />
-          <Tooltip formatter={formatter2} labelFormatter={timestampFormmater} />
+          <YAxis dataKey="value" hide={true} />
+          <Tooltip labelFormatter={timestampFormmater} />
 
           {data.map((serie) => (
             <Line
@@ -116,9 +62,12 @@ export default function Chart({ data, minLimit, maxLimit }) {
               name={serie.name}
               key={serie.name}
               stroke={serie.color}
+              dot={{ r: 2, stroke: serie.color, strokeWidth: 4 }}
+              activeDot={{ r: 4, stroke: serie.color }}
               // type="monotone"
             />
           ))}
+
           <Legend
             layout="vertical"
             verticalAlign="middle"

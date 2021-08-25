@@ -12,13 +12,13 @@ import {
 } from './Helpers/strManipulation';
 
 function App() {
-  const [data, setData] = useState(testData);
+  const [data, setData] = useState([]);
   const [inputData, setInputData] = useState(initialCode);
   const [parsedInput, setParsedInput] = useState(null);
 
   // const [isStarted, setIsStarted] = useState(false);
   const [beginInterval, setBeginInterval] = useState(0);
-  const [endInterval, setEndInterval] = useState(10);
+  const [endInterval, setEndInterval] = useState(0);
 
   useEffect(() => {
     if (parsedInput !== null) {
