@@ -3,17 +3,6 @@ import { insertAndSort } from './arrayManipulation';
 import { addColor } from './colorHandler';
 import { capitalizeFirstLetter, handleSelectString } from './strManipulation';
 
-// export const strToJSON = (str) => {
-//   let lines = str.split('\n');
-
-//   for (let i = 0; i < lines.length; i++) {
-//     lines[i] = lines[i].slice(1, lines[i].length - 1);
-//     lines[i] = lines[i].split(':');
-//   }
-
-//   console.log(lines);
-// };
-
 /**Converts the text input block into an object array using JSON5 library */
 export const codeParse = (textBlock) => {
   let convertedCode = '[' + textBlock.split('\n').join(',') + ']';
@@ -28,7 +17,7 @@ export const codeParse = (textBlock) => {
   }
 };
 
-/**Analizes each line of user input code and converts it in data for chart */
+/**Analizes each line of user input code and converts it in data for chart plotting */
 export const processCode = (codeBlock) => {
   let isStarted = false;
   let startTime = 0;
