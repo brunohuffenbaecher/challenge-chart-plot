@@ -30,13 +30,17 @@ function App() {
   };
   const handleBtnClick = () => {
     setParsedInput(codeParse(inputData));
+    //when parsedInput state changes, it will trigger the useEffect hook
+    //calling the updateData() function
   };
 
+  //**Turns the input code(array of objects) in a data array to be used for chart ploting */
   const updateData = () => {
     const [chartData, begin, end] = processCode(parsedInput);
     updateChart(chartData, begin, end);
   };
 
+  //**Updates the state of variables used for the chart component */
   const updateChart = (chartData, begin, end) => {
     setData(chartData);
     setBeginInterval(begin);
