@@ -5,6 +5,5 @@
 }
 
 :global .react-codemirror2 {
-  /* resize: vertical !important; */
   height: 100% !important;
 }

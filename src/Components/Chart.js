@@ -10,10 +10,6 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const formatter2 = (value, name, props) => {
-  // return ['formatted value', 'formatted name'];
-  return [value, name];
-};
 export default function Chart({ data, minLimit, maxLimit }) {
   const timestampFormmater = (item) => {
     const diff = item - minLimit;
@@ -28,12 +24,9 @@ export default function Chart({ data, minLimit, maxLimit }) {
     );
   };
 
-  // const [maxLimit, setMaxLimit] = useState(10);
-
   return (
     <div style={{ width: '100%', marginTop: '10px' }}>
       <ResponsiveContainer width="90%" minHeight={300}>
-        {/* <ResponsiveContainer> */}
         <LineChart
           width={900}
           height={300}
@@ -43,7 +36,6 @@ export default function Chart({ data, minLimit, maxLimit }) {
           <XAxis
             dataKey="timestamp"
             type="number"
-            // allowDuplicatedCategory={false}
             interval={0}
             domain={[minLimit, maxLimit]}
             tickFormatter={timestampFormmater}
@@ -63,7 +55,6 @@ export default function Chart({ data, minLimit, maxLimit }) {
               stroke={serie.color}
               dot={{ r: 2, stroke: serie.color, strokeWidth: 4 }}
               activeDot={{ r: 4, stroke: serie.color }}
-              // type="monotone"
             />
           ))}
 
@@ -71,7 +62,6 @@ export default function Chart({ data, minLimit, maxLimit }) {
             layout="vertical"
             verticalAlign="middle"
             align="right"
-            // margin=
             wrapperStyle={{ right: -75 }}
           />
         </LineChart>

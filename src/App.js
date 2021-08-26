@@ -4,13 +4,7 @@ import Footer from './Components/Footer';
 import Header from './Components/Header';
 import Input from './Components/Input';
 import { initialCode } from './Data/initialData';
-// import { insertAndSort } from './Helpers/arrayManipulation';
 import { codeParse, processCode } from './Helpers/codeConverter';
-// import { addColor } from './Helpers/colorHandler';
-// import {
-//   capitalizeFirstLetter,
-//   handleSelectString,
-// } from './Helpers/strManipulation';
 
 function App() {
   const [inputData, setInputData] = useState(initialCode);
@@ -34,13 +28,13 @@ function App() {
     //calling the updateData() function
   };
 
-  //**Turns the input code(array of objects) in a data array to be used for chart ploting */
+  //** Turns the input code(array of objects) in a data array to be used for chart ploting */
   const updateData = () => {
     const [chartData, begin, end] = processCode(parsedInput);
     updateChart(chartData, begin, end);
   };
 
-  //**Updates the state of variables used for the chart component */
+  //** Updates the state of variables used for the chart component */
   const updateChart = (chartData, begin, end) => {
     setData(chartData);
     setBeginInterval(begin);

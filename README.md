@@ -7,15 +7,28 @@ The latest app version is deployed here: [https://bruno-oliveira-challenge-chart
 
 ## Installation
 
-To install all dependencies, first run:
+1. Clone the project
 
-### `yarn`
+On command prompt, run:
 
-Then, to start the app, run:
+```
+git clone https://github.com/brunohuffenbaecher/challenge-chart-plot.git
+```
 
-### `yarn start`
+2. Install all dependencies:
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+cd challenge-chart-plot
+yarn
+```
+
+3. Start the app:
+
+```
+yarn start
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the application in the browser.
 
 ## How does it work?
 
@@ -66,7 +79,7 @@ Based on the quantity of different timestamp values, it may be necessary to hand
 
 There's also room for improvement on handling data outside the limits. Right now this is done by the chart component, but it could also be done when processing the input.
 
-Minor adjustments to the app style proving a better user experience.
+Minor adjustments to the app style proving a better user experience and a responsive layout
 
 ## Challenge Description - Plotting a chart
 
